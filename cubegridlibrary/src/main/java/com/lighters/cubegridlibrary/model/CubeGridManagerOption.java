@@ -1,7 +1,5 @@
 package com.lighters.cubegridlibrary.model;
 
-import android.graphics.Color;
-
 /**
  * Created by david on 16/2/5.
  *
@@ -32,7 +30,7 @@ public class CubeGridManagerOption {
     /**
      * 对应每个小方块的填充色
      */
-    private Color mFillColor;
+    private int mFillColor;
 
     public int getColumnSize() {
         return mColumnSize;
@@ -66,11 +64,11 @@ public class CubeGridManagerOption {
         mTotalHeight = totalHeight;
     }
 
-    public Color getFillColor() {
+    public int getFillColor() {
         return mFillColor;
     }
 
-    public void setFillColor(Color fillColor) {
+    public void setFillColor(int fillColor) {
         mFillColor = fillColor;
     }
 
