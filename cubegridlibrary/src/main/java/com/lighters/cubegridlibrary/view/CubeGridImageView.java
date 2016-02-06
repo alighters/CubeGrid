@@ -7,6 +7,9 @@ import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
+import com.lighters.cubegridlibrary.model.CubeGridManagerOption;
+import com.lighters.cubegridlibrary.model.CubeGridManagger;
+
 /**
  * Created by david on 16/2/5.
  */
@@ -26,6 +29,8 @@ public class CubeGridImageView extends ImageView {
 
     private Paint mPaint = new Paint();
 
+    private CubeGridManagger mCubeGridManagger;
+
     public CubeGridImageView(Context context) {
         this(context, null);
     }
@@ -43,16 +48,25 @@ public class CubeGridImageView extends ImageView {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        canvas.drawColor(Color.BLUE);
-        if (mAnimEnabled) {
+        if (mAnimEnabled || mCubeGridManagger != null) {
             canvas.save();
-            int space = getWidth() / 3;
-            canvas.drawRect(space * mCutStep, 0, space * (mCutStep + 1), getHeight(), mPaint);
+            mCubeGridManagger.drawCanvas(canvas);
             canvas.restore();
         }
     }
 
     public void start() {
-        
+        post(new Runnable() {
+            @Override
+            public void run() {
+                mAnimEnabled = true;
+                mCubeGridManagger = new CubeGridManagger();
+                mCubeGridManagger.setUp(new CubeGridManagerOption.Builder().columnSize(3).rowSize(3).fillColor(Color
+                        .BLUE)
+                        .totalHeight(getHeight()).totalWidth(getWidth()).build());
+                mCubeGridManagger.startLoop(CubeGridImageView.this);
+            }
+        });
+
     }
 }

@@ -32,6 +32,14 @@ public class CubeGridManagerOption {
      */
     private int mFillColor;
 
+    private CubeGridManagerOption(Builder builder) {
+        setColumnSize(builder.mColumnSize);
+        setRowSize(builder.mRowSize);
+        setTotalWidth(builder.mTotalWidth);
+        setTotalHeight(builder.mTotalHeight);
+        setFillColor(builder.mFillColor);
+    }
+
     public int getColumnSize() {
         return mColumnSize;
     }
@@ -72,5 +80,43 @@ public class CubeGridManagerOption {
         mFillColor = fillColor;
     }
 
+    public static final class Builder {
+        private int mColumnSize;
+        private int mRowSize;
+        private int mTotalWidth;
+        private int mTotalHeight;
+        private int mFillColor;
 
+        public Builder() {
+        }
+
+        public Builder columnSize(int val) {
+            mColumnSize = val;
+            return this;
+        }
+
+        public Builder rowSize(int val) {
+            mRowSize = val;
+            return this;
+        }
+
+        public Builder totalWidth(int val) {
+            mTotalWidth = val;
+            return this;
+        }
+
+        public Builder totalHeight(int val) {
+            mTotalHeight = val;
+            return this;
+        }
+
+        public Builder fillColor(int val) {
+            mFillColor = val;
+            return this;
+        }
+
+        public CubeGridManagerOption build() {
+            return new CubeGridManagerOption(this);
+        }
+    }
 }

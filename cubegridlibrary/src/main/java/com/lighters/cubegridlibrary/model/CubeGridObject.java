@@ -35,9 +35,9 @@ public class CubeGridObject implements ICubeGridDraw {
     private Paint paint;
 
     /**
-     * 绘画比例
+     * 小方块的显示大小比例
      */
-    private float fraction = 0f;
+    private float fraction = 1f;
 
     public CubeGridObject(float x, float y, int width, int height, Paint paint) {
         this.x = x;

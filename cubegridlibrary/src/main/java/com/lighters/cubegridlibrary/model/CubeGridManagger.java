@@ -83,17 +83,34 @@ public class CubeGridManagger {
         for (int i = 0; i < mRowSize; i++) {
             for (int j = 0; j < mColumnSize; j++) {
                 if (curAnimValue > mDelayTime[i][j] && curAnimValue - mDelayTime[i][j] <= ANIM_DURATION) {
-                    float fraction = (curAnimValue - mDelayTime[i][j]) / ANIM_DURATION;
-                    mCubeGridObjects[i][j].setFraction(fraction);
+                    float animRate = (curAnimValue - mDelayTime[i][j]) / ANIM_DURATION;
+                    mCubeGridObjects[i][j].setFraction(getAnimFraction(animRate));
                 }
             }
         }
     }
 
+    /**
+     * 根据动画执行的时间比率, 获取对应小方块大小比例
+     * 0-0.35% 执行 1 -> 0 的缩小动画
+     * 0.35%-0.7% 执行 0-> 1 的动画
+     * 0.7% 维持1不变
+     * @param animRate
+     * @return
+     */
+    private float getAnimFraction(float animRate) {
+        if (animRate <= 0.35f) {
+            return 1 - animRate / 0.35f;
+        } else if (animRate <= 0.7f) {
+            return  (animRate - 0.35f) / 0.35f;
+        }
+        return 1f;
+    }
+
     private void resetFraction() {
         for (int i = 0; i < mRowSize; i++) {
             for (int j = 0; j < mColumnSize; j++) {
-                mCubeGridObjects[i][j].setFraction(0f);
+                mCubeGridObjects[i][j].setFraction(1f);
             }
         }
     }
