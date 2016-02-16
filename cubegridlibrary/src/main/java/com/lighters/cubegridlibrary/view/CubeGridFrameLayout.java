@@ -22,14 +22,15 @@ public class CubeGridFrameLayout extends FrameLayout {
         super(context, attrs);
     }
 
+
     @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
+    protected void dispatchDraw(Canvas canvas) {
         if (mCubeGridManager != null) {
             canvas.save();
             mCubeGridManager.drawCanvas(canvas);
             canvas.restore();
         }
+        super.dispatchDraw(canvas);
     }
 
     /**

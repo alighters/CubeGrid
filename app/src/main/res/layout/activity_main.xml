@@ -10,7 +10,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.lighters.cubegriddemo.MainActivity">
 
-    <com.lighters.cubegridlibrary.view.CubeGridImageView
+    <com.lighters.cubegridlibrary.view.CubeGridFrameLayout
         android:id="@+id/iv_cube_grid"
         android:layout_width="50dp"
         android:layout_height="50dp"/>

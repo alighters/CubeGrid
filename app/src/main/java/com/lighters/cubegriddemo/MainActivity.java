@@ -1,17 +1,17 @@
 package com.lighters.cubegriddemo;
 
 import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
 import com.lighters.cubegridlibrary.callback.ICubeGridAnimCallback;
 import com.lighters.cubegridlibrary.model.CubeGridManager;
 import com.lighters.cubegridlibrary.model.CubeGridManagerOption;
-import com.lighters.cubegridlibrary.view.CubeGridImageView;
+import com.lighters.cubegridlibrary.view.CubeGridFrameLayout;
 
 public class MainActivity extends AppCompatActivity {
 
-    private CubeGridImageView mCubeGridImageView;
+    private CubeGridFrameLayout mCubeGridImageView;
     private CubeGridManager mCubeGridManager;
 
     @Override
@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void init() {
-        mCubeGridImageView = (CubeGridImageView) findViewById(R.id.iv_cube_grid);
+        mCubeGridImageView = (CubeGridFrameLayout) findViewById(R.id.iv_cube_grid);
         mCubeGridImageView.postDelayed(new Runnable() {
             @Override
             public void run() {
