@@ -48,7 +48,7 @@ public class CubeGridImageView extends ImageView {
     }
 
     public void start() {
-        postDelayed(new Runnable() {
+        post(new Runnable() {
             @Override
             public void run() {
                 mAnimEnabled = true;
@@ -58,7 +58,7 @@ public class CubeGridImageView extends ImageView {
                         .totalHeight(getHeight()).totalWidth(getWidth()).build());
                 mCubeGridManager.startLoop(CubeGridImageView.this);
             }
-        },1000);
+        });
 
     }
 }
