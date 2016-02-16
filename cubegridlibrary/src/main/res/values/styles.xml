@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CubeGridImageView">
+        <attr name="fillColor" format="color"></attr>
+        <attr name="leftTopRoundCornerSize" format="dimension"></attr>
+        <attr name="rightTopRoundCornerSize" format="dimension"></attr>
+        <attr name="leftBottomRoundCornerSize" format="dimension"></attr>
+        <attr name="rightBottomRoundCornerSize" format="dimension"></attr>
+        <attr name="roundCornerSize" format="dimension"></attr>
+    </declare-styleable>
+</resources>

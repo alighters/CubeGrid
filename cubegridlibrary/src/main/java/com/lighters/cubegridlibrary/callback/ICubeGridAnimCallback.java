@@ -13,12 +13,6 @@ public interface ICubeGridAnimCallback {
     void onAnimStart();
 
     /**
-     * 动画执行到的圈数
-     * @param loopCount
-     */
-    void onAnimExcute(int loopCount);
-
-    /**
      * 动画执行结束
      */
     void onAnimEnd();
