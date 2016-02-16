@@ -8,7 +8,7 @@ import android.util.AttributeSet;
 import android.widget.ImageView;
 
 import com.lighters.cubegridlibrary.model.CubeGridManagerOption;
-import com.lighters.cubegridlibrary.model.CubeGridManagger;
+import com.lighters.cubegridlibrary.model.CubeGridManager;
 
 /**
  * Created by david on 16/2/5.
@@ -16,20 +16,13 @@ import com.lighters.cubegridlibrary.model.CubeGridManagger;
 public class CubeGridImageView extends ImageView {
 
     /**
-     * 动画循环的次数, 默认值为1.
-     */
-    private int mLoopCount = 1;
-
-    /**
      * 是否开启动画的执行
      */
     private boolean mAnimEnabled = false;
 
-    private int mCutStep = 0;
-
     private Paint mPaint = new Paint();
 
-    private CubeGridManagger mCubeGridManagger;
+    private CubeGridManager mCubeGridManager;
 
     public CubeGridImageView(Context context) {
         this(context, null);
@@ -42,31 +35,30 @@ public class CubeGridImageView extends ImageView {
 
     private void init() {
         mPaint.setColor(Color.RED);
-
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        if (mAnimEnabled || mCubeGridManagger != null) {
+        if (mAnimEnabled || mCubeGridManager != null) {
             canvas.save();
-            mCubeGridManagger.drawCanvas(canvas);
+            mCubeGridManager.drawCanvas(canvas);
             canvas.restore();
         }
     }
 
     public void start() {
-        post(new Runnable() {
+        postDelayed(new Runnable() {
             @Override
             public void run() {
                 mAnimEnabled = true;
-                mCubeGridManagger = new CubeGridManagger();
-                mCubeGridManagger.setUp(new CubeGridManagerOption.Builder().columnSize(3).rowSize(3).fillColor(Color
+                mCubeGridManager = new CubeGridManager();
+                mCubeGridManager.setUp(new CubeGridManagerOption.Builder().columnSize(3).rowSize(3).fillColor(Color
                         .BLUE)
                         .totalHeight(getHeight()).totalWidth(getWidth()).build());
-                mCubeGridManagger.startLoop(CubeGridImageView.this);
+                mCubeGridManager.startLoop(CubeGridImageView.this);
             }
-        });
+        },1000);
 
     }
 }

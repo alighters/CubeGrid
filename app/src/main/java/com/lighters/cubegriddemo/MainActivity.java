@@ -18,6 +18,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void init() {
         mCubeGridImageView = (CubeGridImageView) findViewById(R.id.iv_cube_grid);
-        mCubeGridImageView.start();
+        mCubeGridImageView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mCubeGridImageView.start();
+            }
+        }, 1000);
+
     }
 }
