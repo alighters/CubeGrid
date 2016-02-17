@@ -17,6 +17,8 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         app:fillColor="#f00"
+        android:src="@drawable/logo_ming"
+        android:padding="12dp"
         app:loopCount="5"
         app:roundCornerSize="6dp"/>
 
@@ -27,4 +29,10 @@
         app:fillColor="#000"
         app:loopCount="5"
         app:roundCornerSize="6dp"/>
+
+    <Button
+        android:id="@+id/btn_change_size"
+        android:layout_width="60dp"
+        android:text="@string/app_name"
+        android:layout_height="30dp"/>
 </LinearLayout>

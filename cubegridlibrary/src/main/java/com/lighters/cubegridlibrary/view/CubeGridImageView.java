@@ -47,6 +47,12 @@ public class CubeGridImageView extends ImageView {
         super.onDraw(canvas);
     }
 
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        mCubeGridManager = null;
+    }
+
     /**
      * 执行开始动画
      */

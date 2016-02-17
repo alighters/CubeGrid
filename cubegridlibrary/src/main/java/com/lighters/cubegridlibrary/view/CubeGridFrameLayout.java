@@ -34,7 +34,7 @@ public class CubeGridFrameLayout extends FrameLayout {
         int loopCount = a.getInt(R.styleable.CubeGridImageView_loopCount, 1);
         mBuilder = new CubeGridManagerOption.Builder();
         mBuilder.loopCount(loopCount);
-        mCornerRate = a.getFloat(R.styleable.CubeGridImageView_roundCornerSize, 0);
+//        mCornerRate = a.getFloat(R.styleable.CubeGridImageView_roundCornerSize, 0);
         int color = a.getColor(R.styleable.CubeGridImageView_fillColor, Color.WHITE);
         mBuilder.fillColor(color);
 
