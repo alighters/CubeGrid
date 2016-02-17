@@ -25,6 +25,8 @@ public class CubeGridFrameLayout extends FrameLayout {
         this(context, null);
     }
 
+    private float mCornerRate = 0;
+
     public CubeGridFrameLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
         final TypedArray a = context.obtainStyledAttributes(
@@ -32,8 +34,7 @@ public class CubeGridFrameLayout extends FrameLayout {
         int loopCount = a.getInt(R.styleable.CubeGridImageView_loopCount, 1);
         mBuilder = new CubeGridManagerOption.Builder();
         mBuilder.loopCount(loopCount);
-        int cornerSize = a.getDimensionPixelSize(R.styleable.CubeGridImageView_roundCornerSize, 0);
-        mBuilder.cornerSize(cornerSize);
+        mCornerRate = a.getFloat(R.styleable.CubeGridImageView_roundCornerSize, 0);
         int color = a.getColor(R.styleable.CubeGridImageView_fillColor, Color.WHITE);
         mBuilder.fillColor(color);
 
@@ -45,6 +46,22 @@ public class CubeGridFrameLayout extends FrameLayout {
         getCubeGridManager().drawCanvas(canvas);
         canvas.restore();
         super.dispatchDraw(canvas);
+    }
+
+    /**
+     * 当布局发生改变, 则重新设置宽度跟高度.
+     * @param changed
+     * @param left
+     * @param top
+     * @param right
+     * @param bottom
+     */
+    @Override
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        super.onLayout(changed, left, top, right, bottom);
+        if (mBuilder != null) {
+            mCubeGridManager = null;
+        }
     }
 
     /**
