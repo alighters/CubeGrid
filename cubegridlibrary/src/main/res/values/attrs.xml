@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CubeGridImageView">
+        <attr name="fillColor" format="color"></attr>
+        <attr name="roundCornerSize" format="dimension"></attr>
+        <attr name="loopCount" format="integer"></attr>
+    </declare-styleable>
+</resources>

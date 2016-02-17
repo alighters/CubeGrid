@@ -95,18 +95,20 @@ public class CubeGridManager {
                 for (int j = 0; j < mColumnSize; j++) {
                     mCubeGridObjects[i][j] = new CubeGridObject(j * cubeGridWidth, i * cubeGridHeight, cubeGridWidth,
                             cubeGridHeight, paint);
-                    if (i == 0 && j == 0) {
-                        mCubeGridObjects[i][j].setCornerLocation(CornerLocation.LEFTTOP);
-                        mCubeGridObjects[i][j].setCornerSize(cornerSize);
-                    } else if (j == 0 && i + 1 == mRowSize) {
-                        mCubeGridObjects[i][j].setCornerLocation(CornerLocation.LEFTBOTTOM);
-                        mCubeGridObjects[i][j].setCornerSize(cornerSize);
-                    } else if (i == 0 && j + 1 == mColumnSize) {
-                        mCubeGridObjects[i][j].setCornerLocation(CornerLocation.RIGHTTOP);
-                        mCubeGridObjects[i][j].setCornerSize(cornerSize);
-                    } else if (i + 1 == mRowSize && j + 1 == mColumnSize) {
-                        mCubeGridObjects[i][j].setCornerLocation(CornerLocation.RIGHTBOTTOM);
-                        mCubeGridObjects[i][j].setCornerSize(cornerSize);
+                    if (cornerSize > 0) {
+                        if (i == 0 && j == 0) {
+                            mCubeGridObjects[i][j].setCornerLocation(CornerLocation.LEFTTOP);
+                            mCubeGridObjects[i][j].setCornerSize(cornerSize);
+                        } else if (j == 0 && i + 1 == mRowSize) {
+                            mCubeGridObjects[i][j].setCornerLocation(CornerLocation.LEFTBOTTOM);
+                            mCubeGridObjects[i][j].setCornerSize(cornerSize);
+                        } else if (i == 0 && j + 1 == mColumnSize) {
+                            mCubeGridObjects[i][j].setCornerLocation(CornerLocation.RIGHTTOP);
+                            mCubeGridObjects[i][j].setCornerSize(cornerSize);
+                        } else if (i + 1 == mRowSize && j + 1 == mColumnSize) {
+                            mCubeGridObjects[i][j].setCornerLocation(CornerLocation.RIGHTBOTTOM);
+                            mCubeGridObjects[i][j].setCornerSize(cornerSize);
+                        }
                     }
                 }
             }
@@ -220,5 +222,14 @@ public class CubeGridManager {
             return (animRate - 0.35f) / 0.35f;
         }
         return 1f;
+    }
+
+    /**
+     * 设置动画的回调
+     *
+     * @param cubeGridAnimCallback
+     */
+    public void setCubeGridAnimCallback(ICubeGridAnimCallback cubeGridAnimCallback) {
+        mCubeGridAnimCallback = cubeGridAnimCallback;
     }
 }
