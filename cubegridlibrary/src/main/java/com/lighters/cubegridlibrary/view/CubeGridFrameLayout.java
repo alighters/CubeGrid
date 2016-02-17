@@ -41,18 +41,9 @@ public class CubeGridFrameLayout extends FrameLayout {
 
     @Override
     protected void dispatchDraw(Canvas canvas) {
-        if (mCubeGridManager == null) {
-            mCubeGridManager = new CubeGridManager();
-            mBuilder.totalWidth(getWidth());
-            mBuilder.totalHeight(getHeight());
-            mCubeGridManager.setUp(mBuilder.build());
-        }
-
-        if (mCubeGridManager != null) {
-            canvas.save();
-            mCubeGridManager.drawCanvas(canvas);
-            canvas.restore();
-        }
+        canvas.save();
+        getCubeGridManager().drawCanvas(canvas);
+        canvas.restore();
         super.dispatchDraw(canvas);
     }
 
@@ -69,8 +60,18 @@ public class CubeGridFrameLayout extends FrameLayout {
      * @param cubeGridAnimCallback 动画接口回调
      */
     public void start(ICubeGridAnimCallback cubeGridAnimCallback) {
-        mCubeGridManager.setCubeGridAnimCallback(cubeGridAnimCallback);
-        mCubeGridManager.startLoop(CubeGridFrameLayout.this);
+        getCubeGridManager().setCubeGridAnimCallback(cubeGridAnimCallback);
+        getCubeGridManager().startLoop(CubeGridFrameLayout.this);
+    }
+
+    private CubeGridManager getCubeGridManager() {
+        if (mCubeGridManager == null) {
+            mCubeGridManager = new CubeGridManager();
+            mBuilder.totalWidth(getWidth());
+            mBuilder.totalHeight(getHeight());
+            mCubeGridManager.setUp(mBuilder.build());
+        }
+        return mCubeGridManager;
     }
 
 }
