@@ -25,19 +25,17 @@ public class CubeGridFrameLayout extends FrameLayout {
         this(context, null);
     }
 
-    private float mCornerRate = 0;
 
     public CubeGridFrameLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
-        final TypedArray a = context.obtainStyledAttributes(
-                attrs, R.styleable.CubeGridImageView);
+        final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CubeGridImageView);
         int loopCount = a.getInt(R.styleable.CubeGridImageView_loopCount, 1);
         mBuilder = new CubeGridManagerOption.Builder();
         mBuilder.loopCount(loopCount);
-//        mCornerRate = a.getFloat(R.styleable.CubeGridImageView_roundCornerSize, 0);
+        int cornerSize = a.getDimensionPixelSize(R.styleable.CubeGridImageView_roundCornerSize, 0);
+        mBuilder.cornerSize(cornerSize);
         int color = a.getColor(R.styleable.CubeGridImageView_fillColor, Color.WHITE);
         mBuilder.fillColor(color);
-
     }
 
     @Override
@@ -50,11 +48,6 @@ public class CubeGridFrameLayout extends FrameLayout {
 
     /**
      * 当布局发生改变, 则重新设置宽度跟高度.
-     * @param changed
-     * @param left
-     * @param top
-     * @param right
-     * @param bottom
      */
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
@@ -76,12 +69,20 @@ public class CubeGridFrameLayout extends FrameLayout {
      *
      * @param cubeGridAnimCallback 动画接口回调
      */
-    public void start(ICubeGridAnimCallback cubeGridAnimCallback) {
-        getCubeGridManager().setCubeGridAnimCallback(cubeGridAnimCallback);
-        getCubeGridManager().startLoop(CubeGridFrameLayout.this);
+    public void start(final ICubeGridAnimCallback cubeGridAnimCallback) {
+        post(new Runnable() {
+            @Override
+            public void run() {
+                getCubeGridManager().setCubeGridAnimCallback(cubeGridAnimCallback);
+                getCubeGridManager().startLoop(CubeGridFrameLayout.this);
+            }
+        });
     }
 
-    public void stop(){
+    /**
+     * 执行结束动画
+     */
+    public void stop() {
         getCubeGridManager().stop();
     }
 
@@ -94,5 +95,4 @@ public class CubeGridFrameLayout extends FrameLayout {
         }
         return mCubeGridManager;
     }
-
 }

@@ -27,8 +27,7 @@ public class CubeGridImageView extends ImageView {
 
     public CubeGridImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        final TypedArray a = context.obtainStyledAttributes(
-                attrs, R.styleable.CubeGridImageView);
+        final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CubeGridImageView);
         int loopCount = a.getInt(R.styleable.CubeGridImageView_loopCount, 1);
         mBuilder = new CubeGridManagerOption.Builder();
         mBuilder.loopCount(loopCount);
@@ -60,7 +59,10 @@ public class CubeGridImageView extends ImageView {
         start(null);
     }
 
-    public void stop(){
+    /**
+     * 执行结束动画
+     */
+    public void stop() {
         getCubeGridManager().stop();
     }
 
@@ -69,10 +71,14 @@ public class CubeGridImageView extends ImageView {
      *
      * @param cubeGridAnimCallback 动画接口回调
      */
-    public void start(ICubeGridAnimCallback cubeGridAnimCallback) {
-        getCubeGridManager().setCubeGridAnimCallback(cubeGridAnimCallback);
-        getCubeGridManager().startLoop(CubeGridImageView.this);
-
+    public void start(final ICubeGridAnimCallback cubeGridAnimCallback) {
+        post(new Runnable() {
+            @Override
+            public void run() {
+                getCubeGridManager().setCubeGridAnimCallback(cubeGridAnimCallback);
+                getCubeGridManager().startLoop(CubeGridImageView.this);
+            }
+        });
     }
 
     private CubeGridManager getCubeGridManager() {
@@ -84,5 +90,4 @@ public class CubeGridImageView extends ImageView {
         }
         return mCubeGridManager;
     }
-
 }

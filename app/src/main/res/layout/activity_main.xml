@@ -12,27 +12,21 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.lighters.cubegriddemo.MainActivity">
 
-    <com.lighters.cubegridlibrary.view.CubeGridImageView
-        android:id="@+id/iv_cube_grid"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        app:fillColor="#f00"
-        android:src="@drawable/logo_ming"
-        android:padding="12dp"
-        app:loopCount="5"
-        app:roundCornerSize="6dp"/>
+  <com.lighters.cubegridlibrary.view.CubeGridImageView
+      android:id="@+id/iv_cube_grid"
+      android:layout_width="50dp"
+      android:layout_height="50dp"
+      android:padding="12dp"
+      android:src="@drawable/logo_ming"
+      app:fillColor="#f00"
+      app:loopCount="5"
+      app:roundCornerSize="6dp"/>
 
-    <com.lighters.cubegridlibrary.view.CubeGridFrameLayout
-        android:id="@+id/fl_cube_grid"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        app:fillColor="#000"
-        app:loopCount="5"
-        app:roundCornerSize="6dp"/>
-
-    <Button
-        android:id="@+id/btn_change_size"
-        android:layout_width="60dp"
-        android:text="@string/app_name"
-        android:layout_height="30dp"/>
+  <com.lighters.cubegridlibrary.view.CubeGridFrameLayout
+      android:id="@+id/fl_cube_grid"
+      android:layout_width="50dp"
+      android:layout_height="50dp"
+      app:fillColor="#f00"
+      app:loopCount="5"
+      app:roundCornerSize="6dp"/>
 </LinearLayout>
