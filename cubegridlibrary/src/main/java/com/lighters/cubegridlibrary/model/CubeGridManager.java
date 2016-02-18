@@ -3,6 +3,7 @@ package com.lighters.cubegridlibrary.model;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
@@ -11,7 +12,7 @@ import com.lighters.cubegridlibrary.callback.ICubeGridAnimCallback;
 
 /**
  * Created by david on 16/2/5.
- * <p/>
+ * <p>
  * 控制CubeGrid的动画执行
  */
 public class CubeGridManager {
@@ -45,6 +46,8 @@ public class CubeGridManager {
      */
     public int mAnimTotalValue = 0;
 
+    public static final int ANIM_MSG = 103;
+
     /**
      * 动画执行的插值器, 这里使用加速,之后减速来达到ease-in-out的效果
      */
@@ -69,7 +72,17 @@ public class CubeGridManager {
      */
     private int mCurValue = 0;
 
-    private Handler mHandler = new Handler();
+    private View mAnimView = null;
+
+    private Handler mHandler = new Handler() {
+        @Override
+        public void dispatchMessage(Message msg) {
+            super.dispatchMessage(msg);
+            if (msg.what == ANIM_MSG) {
+                startAnim();
+            }
+        }
+    };
 
     /**
      * 设置方块的参数
@@ -125,28 +138,31 @@ public class CubeGridManager {
         if (mCubeGridAnimCallback != null) {
             mCubeGridAnimCallback.onAnimStart();
         }
-        startAnimByHandler(view);
+        mAnimView = view;
+        mHandler.sendEmptyMessage(ANIM_MSG);
+    }
+
+    /**
+     * 结束动画的执行
+     */
+    public void stop() {
+        mHandler.removeMessages(ANIM_MSG);
     }
 
     /**
      * 使用Handler来执行动画
-     *
-     * @param view
      */
-    private void startAnimByHandler(final View view) {
-        if (mCurValue <= mAnimTotalValue) {
-            setFraction(mCurValue);
-            view.invalidate();
-            mCurValue += ANIM_STEP_VALUE;
-            mHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    startAnimByHandler(view);
+    private void startAnim() {
+        if (mAnimView != null) {
+            if (mCurValue <= mAnimTotalValue) {
+                setFraction(mCurValue);
+                mAnimView.invalidate();
+                mCurValue += ANIM_STEP_VALUE;
+                mHandler.sendEmptyMessageDelayed(ANIM_MSG, ANIM_STEP_TIME);
+            } else {
+                if (mCubeGridAnimCallback != null) {
+                    mCubeGridAnimCallback.onAnimEnd();
                 }
-            }, ANIM_STEP_TIME);
-        } else {
-            if (mCubeGridAnimCallback != null) {
-                mCubeGridAnimCallback.onAnimEnd();
             }
         }
     }

@@ -81,6 +81,10 @@ public class CubeGridFrameLayout extends FrameLayout {
         getCubeGridManager().startLoop(CubeGridFrameLayout.this);
     }
 
+    public void stop(){
+        getCubeGridManager().stop();
+    }
+
     private CubeGridManager getCubeGridManager() {
         if (mCubeGridManager == null) {
             mCubeGridManager = new CubeGridManager();
