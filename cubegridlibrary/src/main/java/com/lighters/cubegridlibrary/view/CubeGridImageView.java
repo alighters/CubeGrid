@@ -60,6 +60,10 @@ public class CubeGridImageView extends ImageView {
         start(null);
     }
 
+    public void stop(){
+        getCubeGridManager().stop();
+    }
+
     /**
      * 开始执行闪烁的动画
      *

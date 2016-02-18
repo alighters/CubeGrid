@@ -45,17 +45,18 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void changeImageSize(){
+    private void changeImageSize() {
         ValueAnimator valueAnimator = ValueAnimator.ofInt(0, 400);
         final LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) mCubeGridImageView.getLayoutParams();
-        final int width  =  layoutParams.width;
+        final int width = layoutParams.width;
         final int height = layoutParams.height;
         valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
-                LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) mCubeGridImageView.getLayoutParams();
-                layoutParams.width = width + (int)animation.getAnimatedValue();
-                layoutParams.height = height + (int)animation.getAnimatedValue();
+                LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) mCubeGridImageView
+                        .getLayoutParams();
+                layoutParams.width = width + (int) animation.getAnimatedValue();
+                layoutParams.height = height + (int) animation.getAnimatedValue();
                 mCubeGridImageView.setLayoutParams(layoutParams);
             }
         });
@@ -74,4 +75,11 @@ public class MainActivity extends AppCompatActivity {
 
         }
     };
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mCubeGridImageView.stop();
+        mCubeGridFrameLayout.stop();
+    }
 }
