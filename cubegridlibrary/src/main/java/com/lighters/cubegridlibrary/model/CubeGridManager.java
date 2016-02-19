@@ -1,13 +1,11 @@
 package com.lighters.cubegridlibrary.model;
 
+import android.animation.TimeInterpolator;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
-import android.view.animation.DecelerateInterpolator;
-import android.view.animation.Interpolator;
-
 import com.lighters.cubegridlibrary.callback.ICubeGridAnimCallback;
 
 /**
@@ -24,12 +22,12 @@ public class CubeGridManager {
     /**
      * 动画执行每一步的大小值
      */
-    public static int ANIM_STEP_VALUE = 20;
+    public static int ANIM_STEP_VALUE = 15;
 
     /**
      * 动画执行每一步的时间值, 单位为毫秒
      */
-    public static int ANIM_STEP_TIME = 20;
+    public static int ANIM_STEP_TIME = 15;
 
     /**
      * 执行动画的单个延时
@@ -51,15 +49,15 @@ public class CubeGridManager {
     /**
      * 动画执行的插值器, 这里使用加速,之后减速来达到ease-in-out的效果
      */
-    public Interpolator mInterpolator;
+    public TimeInterpolator mInterpolator;
 
     /**
      * 对应每个小方块延时的时长
      */
     private int[][] mDelayTime = {
-            {ANIM_DELAY * 2, ANIM_DELAY * 3, ANIM_DELAY * 4},
-            {ANIM_DELAY, ANIM_DELAY * 2, ANIM_DELAY * 3},
-            {0, ANIM_DELAY, ANIM_DELAY * 2}};
+        { ANIM_DELAY * 2, ANIM_DELAY * 3, ANIM_DELAY * 4 }, { ANIM_DELAY, ANIM_DELAY * 2, ANIM_DELAY * 3 },
+        { 0, ANIM_DELAY, ANIM_DELAY * 2 }
+    };
 
     private CubeGridObject[][] mCubeGridObjects;
 
@@ -86,8 +84,6 @@ public class CubeGridManager {
 
     /**
      * 设置方块的参数
-     *
-     * @param cubeGridManagerOption
      */
     public void setUp(CubeGridManagerOption cubeGridManagerOption) {
         if (cubeGridManagerOption != null) {
@@ -95,8 +91,7 @@ public class CubeGridManager {
             int cubeGridHeight = cubeGridManagerOption.getTotalHeight() / cubeGridManagerOption.getColumnSize();
             mRowSize = cubeGridManagerOption.getRowSize();
             mColumnSize = cubeGridManagerOption.getColumnSize();
-            if (cubeGridManagerOption.getLoopCount() > 0)
-                mLoopCount = cubeGridManagerOption.getLoopCount();
+            if (cubeGridManagerOption.getLoopCount() > 0) mLoopCount = cubeGridManagerOption.getLoopCount();
             mAnimTotalValue = ANIM_CYCLE_VALUE * mLoopCount + ANIM_DELAY * 4;
             mCubeGridAnimCallback = cubeGridManagerOption.getCubeGridAnimCallback();
             mCubeGridObjects = new CubeGridObject[mRowSize][mColumnSize];
@@ -106,8 +101,8 @@ public class CubeGridManager {
             paint.setColor(cubeGridManagerOption.getFillColor());
             for (int i = 0; i < mRowSize; i++) {
                 for (int j = 0; j < mColumnSize; j++) {
-                    mCubeGridObjects[i][j] = new CubeGridObject(j * cubeGridWidth, i * cubeGridHeight, cubeGridWidth,
-                            cubeGridHeight, paint);
+                    mCubeGridObjects[i][j] =
+                        new CubeGridObject(j * cubeGridWidth, i * cubeGridHeight, cubeGridWidth, cubeGridHeight, paint);
                     if (cornerSize > 0) {
                         if (i == 0 && j == 0) {
                             mCubeGridObjects[i][j].setCornerLocation(CornerLocation.LEFTTOP);
@@ -130,8 +125,6 @@ public class CubeGridManager {
 
     /**
      * 在指定的View上, 做Canvas动画
-     *
-     * @param view
      */
     public void startLoop(final View view) {
         mCurValue = 0;
@@ -169,8 +162,6 @@ public class CubeGridManager {
 
     /**
      * 在Canvas画出对应的显示CubeGridObject数组
-     *
-     * @param canvas
      */
     public void drawCanvas(Canvas canvas) {
         for (int i = 0; i < mRowSize; i++) {
@@ -202,9 +193,6 @@ public class CubeGridManager {
 
     /**
      * 获取对应动画插值的value
-     *
-     * @param input
-     * @return
      */
     private float getInterpolatorValue(float input) {
         return getInterpolator().getInterpolation(input);
@@ -212,12 +200,10 @@ public class CubeGridManager {
 
     /**
      * 获取相应动画的插值器
-     *
-     * @return
      */
-    private Interpolator getInterpolator() {
+    private TimeInterpolator getInterpolator() {
         if (mInterpolator == null) {
-            mInterpolator = new DecelerateInterpolator(1.0f);
+            mInterpolator = new EaseInOutCubicInterpolator();
         }
         return mInterpolator;
     }
@@ -227,9 +213,6 @@ public class CubeGridManager {
      * 0-0.35% 执行 1 -> 0 的缩小动画
      * 0.35%-0.7% 执行 0-> 1 的动画
      * 0.7% 维持1不变
-     *
-     * @param animRate
-     * @return
      */
     private float getAnimFraction(float animRate) {
         if (animRate <= 0.35f) {
@@ -242,10 +225,27 @@ public class CubeGridManager {
 
     /**
      * 设置动画的回调
-     *
-     * @param cubeGridAnimCallback
      */
     public void setCubeGridAnimCallback(ICubeGridAnimCallback cubeGridAnimCallback) {
         mCubeGridAnimCallback = cubeGridAnimCallback;
+    }
+
+    /**
+     *  ease-in-out 效果文章资料:
+     *  http://easings.net/zh-cn
+     *  https://github.com/ai/easings.net
+     *  https://github.com/Fichardu/EaseAnimationInterpolator
+     *
+     */
+    class EaseInOutCubicInterpolator implements TimeInterpolator {
+
+        @Override
+        public float getInterpolation(float input) {
+            if ((input *= 2) < 1.0f) {
+                return 0.5f * input * input * input;
+            }
+            input -= 2;
+            return 0.5f * input * input * input + 1;
+        }
     }
 }
