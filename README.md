@@ -4,7 +4,7 @@ Cube grid animation about the android.
 The android implementation about the [9-cube-grid](https://github.com/tobiasahlin/SpinKit/blob/master/examples/9-cube-grid.html)
 
 ## Demo
-![test](http://7xpyth.com1.z0.glb.clouddn.com/cube.gif)
+![test](http://7xpyth.com1.z0.glb.clouddn.com/cube1.gif)
 
 ## Usage
 ### Add dependency
