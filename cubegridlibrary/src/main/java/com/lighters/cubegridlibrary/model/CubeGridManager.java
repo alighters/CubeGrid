@@ -192,7 +192,7 @@ public class CubeGridManager {
     }
 
     /**
-     * 获取对应动画插值的value
+     * 获取对应动画插值的valueR
      */
     private float getInterpolatorValue(float input) {
         return getInterpolator().getInterpolation(input);
