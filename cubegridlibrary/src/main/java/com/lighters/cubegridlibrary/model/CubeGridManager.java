@@ -127,12 +127,32 @@ public class CubeGridManager {
      * 在指定的View上, 做Canvas动画
      */
     public void startLoop(final View view) {
+        for (int i = 0; i < mRowSize; i++) {
+            for (int j = 0; j < mColumnSize; j++) {
+                mCubeGridObjects[i][j].setMaxLoopCount(Integer.MAX_VALUE);
+                mCubeGridObjects[i][j].setCurLoopCount(0);
+            }
+        }
         mCurValue = 0;
         if (mCubeGridAnimCallback != null) {
             mCubeGridAnimCallback.onAnimStart();
         }
         mAnimView = view;
         mHandler.sendEmptyMessage(ANIM_MSG);
+    }
+
+    /**
+     * 暂停动画的执行
+     */
+    public void pause() {
+        if (mCubeGridObjects != null) {
+            int maxLoopCount = mCubeGridObjects[2][0].getCurLoopCount();
+            for (int i = 0; i < mRowSize; i++) {
+                for (int j = 0; j < mColumnSize; j++) {
+                    mCubeGridObjects[i][j].setMaxLoopCount(maxLoopCount);
+                }
+            }
+        }
     }
 
     /**
@@ -183,6 +203,7 @@ public class CubeGridManager {
                 curCubeObjectAnimValue = curAnimValue - mDelayTime[i][j];
                 if (curCubeObjectAnimValue > 0 && curCubeObjectAnimValue <= ANIM_CYCLE_VALUE * mLoopCount) {
                     float animRate = (curCubeObjectAnimValue % ANIM_CYCLE_VALUE) * 1.0f / ANIM_CYCLE_VALUE;
+                    mCubeGridObjects[i][j].setCurLoopCount(curCubeObjectAnimValue / ANIM_CYCLE_VALUE + 1);
                     mCubeGridObjects[i][j].setFraction(getInterpolatorValue(getAnimFraction(animRate)));
                 } else {
                     mCubeGridObjects[i][j].setFraction(1.0f);
@@ -231,13 +252,12 @@ public class CubeGridManager {
     }
 
     /**
-     *  ease-in-out 效果文章资料:
-     *  http://easings.net/zh-cn
-     *  https://github.com/ai/easings.net
-     *  https://github.com/Fichardu/EaseAnimationInterpolator
-     *
+     * ease-in-out 效果文章资料:
+     * http://easings.net/zh-cn
+     * https://github.com/ai/easings.net
+     * https://github.com/Fichardu/EaseAnimationInterpolator
      */
-    class EaseInOutCubicInterpolator implements TimeInterpolator {
+    static class EaseInOutCubicInterpolator implements TimeInterpolator {
 
         @Override
         public float getInterpolation(float input) {

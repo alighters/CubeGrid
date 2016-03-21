@@ -25,7 +25,6 @@ public class CubeGridFrameLayout extends FrameLayout {
         this(context, null);
     }
 
-
     public CubeGridFrameLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
         final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CubeGridImageView);
@@ -77,6 +76,13 @@ public class CubeGridFrameLayout extends FrameLayout {
                 getCubeGridManager().startLoop(CubeGridFrameLayout.this);
             }
         });
+    }
+
+    /**
+     * 执行动画的暂停, 但针对每个小方块的动画, 还会完整地执行完成当前的周期
+     */
+    public void pause() {
+        getCubeGridManager().pause();
     }
 
     /**

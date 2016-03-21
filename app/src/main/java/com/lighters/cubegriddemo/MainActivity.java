@@ -29,12 +29,22 @@ public class MainActivity extends AppCompatActivity {
                 mCubeGridFrameLayout.start(mCubeGridAnimCallback);
             }
         }, 100);
-
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mCubeGridImageView.pause();
+            }
+        }, 5000);
     }
 
     private ICubeGridAnimCallback mCubeGridAnimCallback = new ICubeGridAnimCallback() {
         @Override
         public void onAnimStart() {
+
+        }
+
+        @Override
+        public void onAnimExecute(int curLoopCount) {
 
         }
 

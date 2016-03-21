@@ -49,6 +49,32 @@ public class CubeGridObject implements ICubeGridDraw {
     private float fraction = 1f;
 
     /**
+     * 当前动画执行的圈数
+     */
+    private int curLoopCount;
+
+    /**
+     * 当前方块执行的最大圈数
+     */
+    private int maxLoopCount = Integer.MAX_VALUE;
+
+    public int getCurLoopCount() {
+        return curLoopCount;
+    }
+
+    public void setCurLoopCount(int curLoopCount) {
+        this.curLoopCount = curLoopCount;
+    }
+
+    public int getMaxLoopCount() {
+        return maxLoopCount;
+    }
+
+    public void setMaxLoopCount(int maxLoopCount) {
+        this.maxLoopCount = maxLoopCount;
+    }
+
+    /**
      * 小方块的圆角位置
      */
     private CornerLocation mCornerLocation;
@@ -59,6 +85,7 @@ public class CubeGridObject implements ICubeGridDraw {
         this.width = width;
         this.height = height;
         this.paint = paint;
+        curLoopCount = 0;
     }
 
     public void setFraction(float fraction) {
@@ -70,12 +97,16 @@ public class CubeGridObject implements ICubeGridDraw {
     }
 
     public void setCornerSize(int cornerSize) {
-        if(cornerSize > 0)
-        this.cornerSize = cornerSize;
+        if (cornerSize > 0) {
+            this.cornerSize = cornerSize;
+        }
     }
 
     @Override
     public void drawCubeGrid(Canvas canvas) {
+        if (curLoopCount > maxLoopCount) {
+            fraction = 1;
+        }
         float xSpace = (1 - fraction) * width / 2;
         float left = x + xSpace;
         float right = x + width - xSpace;
@@ -101,16 +132,9 @@ public class CubeGridObject implements ICubeGridDraw {
 
     /**
      * 绘制左上角的圆角矩形
-     *
-     * @param canvas
-     * @param left
-     * @param top
-     * @param right
-     * @param bottom
-     * @param paint
      */
     private void drawLeftTopCubeGridWithCorner(Canvas canvas, float left, float top, float right, float bottom, Paint
-            paint) {
+        paint) {
         Path path = new Path();
         float corner = cornerSize * fraction;
         if (left + corner > right || top + corner > bottom) {
@@ -128,16 +152,9 @@ public class CubeGridObject implements ICubeGridDraw {
 
     /**
      * 绘制左下角的圆角矩形
-     *
-     * @param canvas
-     * @param left
-     * @param top
-     * @param right
-     * @param bottom
-     * @param paint
      */
     private void drawLeftBottomCubeGridWithCorner(Canvas canvas, float left, float top, float right, float bottom, Paint
-            paint) {
+        paint) {
         Path path = new Path();
         float corner = cornerSize * fraction;
         if (left + corner > right || top + corner > bottom) {
@@ -155,16 +172,9 @@ public class CubeGridObject implements ICubeGridDraw {
 
     /**
      * 绘制右上角的圆角矩形
-     *
-     * @param canvas
-     * @param left
-     * @param top
-     * @param right
-     * @param bottom
-     * @param paint
      */
     private void drawRightTopCubeGridWithCorner(Canvas canvas, float left, float top, float right, float bottom, Paint
-            paint) {
+        paint) {
         Path path = new Path();
         float corner = cornerSize * fraction;
         if (left + corner > right || top + corner > bottom) {
@@ -182,16 +192,9 @@ public class CubeGridObject implements ICubeGridDraw {
 
     /**
      * 绘制右下角的圆角矩形
-     *
-     * @param canvas
-     * @param left
-     * @param top
-     * @param right
-     * @param bottom
-     * @param paint
      */
     private void drawRightBottomCubeGridWithCorner(Canvas canvas, float left, float top, float right, float bottom,
-                                                   Paint paint) {
+        Paint paint) {
         Path path = new Path();
         float corner = cornerSize * fraction;
         if (left + corner > right || top + corner > bottom) {
