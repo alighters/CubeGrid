@@ -43,6 +43,8 @@ The android implementation about the [9-cube-grid](https://github.com/tobiasahli
 ```
 public class MainActivity extends AppCompatActivity {
 
+    public final static String TAG = MainActivity.class.getName();
+
     private CubeGridImageView mCubeGridImageView;
     private CubeGridFrameLayout mCubeGridFrameLayout;
 
@@ -56,33 +58,60 @@ public class MainActivity extends AppCompatActivity {
     private void init() {
         mCubeGridImageView = (CubeGridImageView) findViewById(R.id.iv_cube_grid);
         mCubeGridFrameLayout = (CubeGridFrameLayout) findViewById(R.id.fl_cube_grid);
-        mCubeGridImageView.start(mCubeGridAnimCallback);
+        mCubeGridImageView.start(mImageAnimCallback);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                mCubeGridFrameLayout.start(mCubeGridAnimCallback);
+                mCubeGridFrameLayout.start(mFrameLayoutAnimCallback);
             }
         }, 100);
-
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mCubeGridImageView.stop();
+            }
+        }, 5000);
     }
 
-    private ICubeGridAnimCallback mCubeGridAnimCallback = new ICubeGridAnimCallback() {
+    private ICubeGridAnimCallback mImageAnimCallback = new ICubeGridAnimCallback() {
         @Override
         public void onAnimStart() {
 
         }
 
         @Override
-        public void onAnimEnd() {
+        public void onAnimExecute(int curLoopCount) {
+            Log.d(TAG, "image loop:" + curLoopCount);
+        }
 
+        @Override
+        public void onAnimEnd() {
+            Toast.makeText(MainActivity.this, "ImageAnimEnd", Toast.LENGTH_SHORT).show();
+        }
+    };
+
+    private ICubeGridAnimCallback mFrameLayoutAnimCallback = new ICubeGridAnimCallback() {
+        @Override
+        public void onAnimStart() {
+
+        }
+
+        @Override
+        public void onAnimExecute(int curLoopCount) {
+            Log.d(TAG, "frame layout loop:" + curLoopCount);
+        }
+
+        @Override
+        public void onAnimEnd() {
+            Toast.makeText(MainActivity.this, "FrameAnimEnd", Toast.LENGTH_SHORT).show();
         }
     };
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mCubeGridImageView.stop();
-        mCubeGridFrameLayout.stop();
+        mCubeGridImageView.destory();
+        mCubeGridFrameLayout.destroy();
     }
 }
 ```
