@@ -64,6 +64,7 @@ public class CubeGridManager {
     private int mRowSize;
     private int mColumnSize;
     private ICubeGridAnimCallback mCubeGridAnimCallback;
+    private boolean mStoped;
 
     /**
      * 当前动画的大小值
@@ -77,7 +78,10 @@ public class CubeGridManager {
         public void dispatchMessage(Message msg) {
             super.dispatchMessage(msg);
             if (msg.what == ANIM_MSG) {
-                startAnim();
+                if (mStoped) {
+                    return;
+                }
+                startAnimLoop();
             }
         }
     };
@@ -127,6 +131,7 @@ public class CubeGridManager {
      * 在指定的View上, 做Canvas动画
      */
     public void startLoop(final View view) {
+        mStoped = false;
         for (int i = 0; i < mRowSize; i++) {
             for (int j = 0; j < mColumnSize; j++) {
                 mCubeGridObjects[i][j].setMaxLoopCount(Integer.MAX_VALUE);
@@ -144,7 +149,7 @@ public class CubeGridManager {
     /**
      * 暂停动画的执行
      */
-    public void pause() {
+    public void stop() {
         if (mCubeGridObjects != null) {
             int maxLoopCount = mCubeGridObjects[2][0].getCurLoopCount();
             for (int i = 0; i < mRowSize; i++) {
@@ -158,14 +163,14 @@ public class CubeGridManager {
     /**
      * 结束动画的执行
      */
-    public void stop() {
+    public void destroy() {
         mHandler.removeMessages(ANIM_MSG);
     }
 
     /**
-     * 使用Handler来执行动画
+     * 使用Handler来循环执行动画的显示
      */
-    private void startAnim() {
+    private void startAnimLoop() {
         if (mAnimView != null) {
             if (mCurValue <= mAnimTotalValue) {
                 setFraction(mCurValue);
@@ -203,12 +208,23 @@ public class CubeGridManager {
                 curCubeObjectAnimValue = curAnimValue - mDelayTime[i][j];
                 if (curCubeObjectAnimValue > 0 && curCubeObjectAnimValue <= ANIM_CYCLE_VALUE * mLoopCount) {
                     float animRate = (curCubeObjectAnimValue % ANIM_CYCLE_VALUE) * 1.0f / ANIM_CYCLE_VALUE;
-                    mCubeGridObjects[i][j].setCurLoopCount(curCubeObjectAnimValue / ANIM_CYCLE_VALUE + 1);
+                    int curLoop = curCubeObjectAnimValue / ANIM_CYCLE_VALUE + 1;
+                    if (i == mRowSize - 1 && j == mColumnSize - 1 && mCubeGridAnimCallback != null) {
+                        mCubeGridAnimCallback.onAnimExecute(curLoop);
+                    }
+                    mCubeGridObjects[i][j].setCurLoopCount(curLoop);
                     mCubeGridObjects[i][j].setFraction(getInterpolatorValue(getAnimFraction(animRate)));
                 } else {
                     mCubeGridObjects[i][j].setFraction(1.0f);
                 }
             }
+        }
+        if (mCubeGridObjects[mRowSize - 1][0].getCurLoopCount() > mCubeGridObjects[mRowSize - 1][0].getMaxLoopCount()) {
+            if (mCubeGridAnimCallback != null) {
+                mCubeGridAnimCallback.onAnimEnd();
+            }
+            mStoped = true;
+            destroy();
         }
     }
 
