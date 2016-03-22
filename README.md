@@ -15,7 +15,7 @@ The android implementation about the [9-cube-grid](https://github.com/tobiasahli
 		}
 	}
 	dependencies {
-	        compile 'com.github.david-wei:CubeGrid:1.0.1'
+	        compile 'com.github.david-wei:CubeGrid:1.2.1'
 	}
 	
 ### Step 1
