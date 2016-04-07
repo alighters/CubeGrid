@@ -4,7 +4,6 @@ import com.lighters.cubegridlibrary.callback.ICubeGridAnimCallback;
 
 /**
  * Created by david on 16/2/5.
- * <p/>
  * 整个方块的应用配置
  */
 public class CubeGridManagerOption {

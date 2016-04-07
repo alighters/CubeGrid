@@ -9,7 +9,6 @@ import com.lighters.cubegridlibrary.callback.ICubeGridDraw;
 
 /**
  * Created by david on 16/2/5.
- * <p/>
  * 对应单个显示的小方块
  */
 public class CubeGridObject implements ICubeGridDraw {
