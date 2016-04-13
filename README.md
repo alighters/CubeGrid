@@ -11,11 +11,11 @@ The android implementation about the [9-cube-grid](https://github.com/tobiasahli
 	allprojects {
 		repositories {
 			...
-			maven { url "https://jitpack.io" }
+         mavenCentral()
 		}
 	}
 	dependencies {
-	        compile 'com.github.david-wei:CubeGrid:1.2.1'
+       compile 'com.lighters.cubegrid:cubegridlibray:1.2.4'
 	}
 	
 ### Step 1

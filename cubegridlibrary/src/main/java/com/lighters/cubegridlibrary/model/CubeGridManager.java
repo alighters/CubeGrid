@@ -107,6 +107,8 @@ public class CubeGridManager {
                 for (int j = 0; j < mColumnSize; j++) {
                     mCubeGridObjects[i][j] =
                         new CubeGridObject(j * cubeGridWidth, i * cubeGridHeight, cubeGridWidth, cubeGridHeight, paint);
+                    mCubeGridObjects[i][j].setCurLoopCount(1);
+                    mCubeGridObjects[i][j].setMaxLoopCount(Integer.MAX_VALUE);
                     if (cornerSize > 0) {
                         if (i == 0 && j == 0) {
                             mCubeGridObjects[i][j].setCornerLocation(CornerLocation.LEFTTOP);
@@ -134,8 +136,7 @@ public class CubeGridManager {
         mStoped = false;
         for (int i = 0; i < mRowSize; i++) {
             for (int j = 0; j < mColumnSize; j++) {
-                mCubeGridObjects[i][j].setMaxLoopCount(Integer.MAX_VALUE);
-                mCubeGridObjects[i][j].setCurLoopCount(0);
+                mCubeGridObjects[i][j].setCurLoopCount(1);
             }
         }
         mCurValue = 0;

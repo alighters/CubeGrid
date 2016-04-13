@@ -50,7 +50,7 @@ public class CubeGridObject implements ICubeGridDraw {
     /**
      * 当前动画执行的圈数
      */
-    private int curLoopCount;
+    private int curLoopCount = 1;
 
     /**
      * 当前方块执行的最大圈数

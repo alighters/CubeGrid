@@ -66,12 +66,16 @@ public class CubeGridImageView extends ImageView {
         getCubeGridManager().destroy();
     }
 
-
     /**
      * 执行动画的暂停, 但针对每个小方块的动画, 还会完整地执行完成当前的周期
      */
     public void stop() {
-        getCubeGridManager().stop();
+        post(new Runnable() {
+            @Override
+            public void run() {
+                getCubeGridManager().stop();
+            }
+        });
     }
 
     /**

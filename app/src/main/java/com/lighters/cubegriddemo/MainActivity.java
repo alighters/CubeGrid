@@ -33,12 +33,7 @@ public class MainActivity extends AppCompatActivity {
                 mCubeGridFrameLayout.start(mFrameLayoutAnimCallback);
             }
         }, 100);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mCubeGridImageView.stop();
-            }
-        }, 5000);
+        mCubeGridImageView.stop();
     }
 
     private ICubeGridAnimCallback mImageAnimCallback = new ICubeGridAnimCallback() {
