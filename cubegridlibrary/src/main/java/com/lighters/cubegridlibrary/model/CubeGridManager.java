@@ -91,8 +91,9 @@ public class CubeGridManager {
      */
     public void setUp(CubeGridManagerOption cubeGridManagerOption) {
         if (cubeGridManagerOption != null) {
-            int cubeGridWidth = cubeGridManagerOption.getTotalWidth() / cubeGridManagerOption.getRowSize();
-            int cubeGridHeight = cubeGridManagerOption.getTotalHeight() / cubeGridManagerOption.getColumnSize();
+            int totalWidth = cubeGridManagerOption.getTotalWidth();
+            int totalHeight = cubeGridManagerOption.getTotalHeight();
+
             mRowSize = cubeGridManagerOption.getRowSize();
             mColumnSize = cubeGridManagerOption.getColumnSize();
             if (cubeGridManagerOption.getLoopCount() > 0) mLoopCount = cubeGridManagerOption.getLoopCount();
@@ -103,10 +104,25 @@ public class CubeGridManager {
 
             Paint paint = new Paint();
             paint.setColor(cubeGridManagerOption.getFillColor());
+            int thisX, thisY, nextX, nextY;
             for (int i = 0; i < mRowSize; i++) {
                 for (int j = 0; j < mColumnSize; j++) {
-                    mCubeGridObjects[i][j] =
-                        new CubeGridObject(j * cubeGridWidth, i * cubeGridHeight, cubeGridWidth, cubeGridHeight, paint);
+                    if (j + 1 == mColumnSize) {
+                        nextX = totalWidth;
+                    } else {
+                        nextX = (int) (totalWidth * 1.0f / mColumnSize * (j + 1));
+                    }
+                    thisX = (int) (totalWidth * 1.0f / mColumnSize * j);
+
+                    if (i + 1 == mRowSize) {
+                        nextY = totalHeight;
+                    } else {
+                        nextY = (int) (totalHeight * 1.0f / mRowSize * (i + 1));
+                    }
+
+                    thisY = (int) (totalHeight * 1.0f / mRowSize * i);
+
+                    mCubeGridObjects[i][j] = new CubeGridObject(thisX, thisY, nextX - thisX, nextY - thisY, paint);
                     mCubeGridObjects[i][j].setCurLoopCount(1);
                     mCubeGridObjects[i][j].setMaxLoopCount(Integer.MAX_VALUE);
                     if (cornerSize > 0) {
@@ -168,6 +184,17 @@ public class CubeGridManager {
         mHandler.removeMessages(ANIM_MSG);
     }
 
+    public void resetAnim() {
+        for (int i = 0; i < mRowSize; i++) {
+            for (int j = 0; j < mColumnSize; j++) {
+                if (mCubeGridObjects[i][j] != null) {
+                    mCubeGridObjects[i][j].setCurLoopCount(1);
+                    mCubeGridObjects[i][j].setMaxLoopCount(Integer.MAX_VALUE);
+                }
+            }
+        }
+    }
+
     /**
      * 使用Handler来循环执行动画的显示
      */
@@ -226,6 +253,7 @@ public class CubeGridManager {
             }
             mStoped = true;
             destroy();
+            resetAnim();
         }
     }
 

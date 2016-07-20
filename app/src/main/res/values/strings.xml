@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">CubeGridDemo</string>
-    <string name="改变ImageView的大小">CubeGridDemo</string>
+    <string name="start">Start</string>
+    <string name="stop">Stop</string>
 </resources>
