@@ -110,17 +110,17 @@ public class CubeGridManager {
                     if (j + 1 == mColumnSize) {
                         nextX = totalWidth;
                     } else {
-                        nextX = (int) (totalWidth * 1.0f / mColumnSize * (j + 1));
+                        nextX = (int) (Math.floor(totalWidth * 1.0f / mColumnSize * (j + 1)));
                     }
-                    thisX = (int) (totalWidth * 1.0f / mColumnSize * j);
+                    thisX = (int) (Math.floor(totalWidth * 1.0f / mColumnSize * j));
 
                     if (i + 1 == mRowSize) {
                         nextY = totalHeight;
                     } else {
-                        nextY = (int) (totalHeight * 1.0f / mRowSize * (i + 1));
+                        nextY = (int) (Math.floor(totalHeight * 1.0f / mRowSize * (i + 1)));
                     }
 
-                    thisY = (int) (totalHeight * 1.0f / mRowSize * i);
+                    thisY = (int) (Math.floor(totalHeight * 1.0f / mRowSize * i));
 
                     mCubeGridObjects[i][j] = new CubeGridObject(thisX, thisY, nextX - thisX, nextY - thisY, paint);
                     mCubeGridObjects[i][j].setCurLoopCount(1);

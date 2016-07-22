@@ -22,12 +22,10 @@ android {
     }
 }
 
-dependencies {
-compile 'com.android.support:appcompat-v7:23.1.1'
-}
 
 
-def siteUrl = 'https://github.com/david-wei/CubeGrid'    // project homepage
+def siteUrl = 'https://github.com/david-wei/CubeGrid'
+// project homepage
 def gitUrl = 'https://github.com/david-wei/CubeGrid.git'
 
 group = "com.lighters.cubegrid"
@@ -90,7 +88,7 @@ bintray {
     configurations = ['archives']
     pkg {
         repo = "maven"
-        name = "cubegrid"                // project name in jcenter
+        name = "cubegrid" // project name in jcenter
         desc = "Cube Grid Animation for Android"
         websiteUrl = siteUrl
         vcsUrl = gitUrl
@@ -100,5 +98,9 @@ bintray {
         publicDownloadNumbers = true
     }
 }
+dependencies {
+    compile 'com.android.support:appcompat-v7:23.1.1'
+}
+
 
 

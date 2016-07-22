@@ -6,7 +6,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
-import android.widget.ImageView;
 import com.lighters.cubegridlibrary.R;
 import com.lighters.cubegridlibrary.callback.ICubeGridAnimCallback;
 import com.lighters.cubegridlibrary.model.CubeGridManager;
